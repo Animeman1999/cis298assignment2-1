@@ -15,4 +15,7 @@
 
     <string name="convert_button">CONVERT</string>
 
+    <string name="anwerText">100.0 C = 212.0 F</string>
+    <string name="formulaAnswer">[F] = ([C} x 9/5) + 32</string>
+
 </resources>
