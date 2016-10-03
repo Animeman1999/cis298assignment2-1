@@ -5,10 +5,15 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.RadioGroup;
+import android.widget.TextView;
 
 public class TemperatureConverter extends AppCompatActivity {
 
-    Button convertButton;
+    private Button mConvertButton;
+    private RadioGroup mFromGroup;
+    private RadioGroup mToGroup;
+    private TextView mAnswerTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

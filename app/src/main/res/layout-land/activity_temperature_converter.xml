@@ -33,7 +33,6 @@
             android:id="@+id/radioGroupOne"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingBottom="10dp"
             android:orientation="horizontal">
 
             <TextView
@@ -88,7 +87,6 @@
                 android:layout_height="wrap_content"
                 android:paddingRight="38dp"
                 android:textSize="32dp"
-                android:paddingBottom="10dp"
                 android:textColor="#be1919"
                 android:text="@string/to"/>
 
@@ -138,7 +136,6 @@
         android:layout_gravity="center"
         android:textSize="32dp"
         android:textColor="#be1919"
-        android:paddingTop="10dp"
         android:text="@string/anwerText"/>
 
     <TextView
@@ -146,7 +143,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:textSize="15dp"
-        android:layout_marginTop="10dp"
         android:text="@string/formulaAnswer"/>
 
 </LinearLayout>
