@@ -144,7 +144,7 @@
         android:text="@string/anwerText"/>
 
     <TextView
-        android:id="@+id/answer_formula"
+        android:id="@+id/answer_formula_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"

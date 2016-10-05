@@ -15,8 +15,8 @@
 
     <string name="convert_button">CONVERT</string>
 
-    <string name="anwerText">100.0 C = 212.0 F</string>
-    <string name="formulaAnswer">[F] = ([C} x 9/5) + 32</string>
+    <string name="anwerText"></string>
+    <string name="formulaAnswer"></string>
 
     <string name="no_from_chosen">You must select the type of temperature to convert from.</string>
     <string name="no_to_chosen">You must select the type of temperature to convert to.</string>

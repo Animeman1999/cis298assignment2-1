@@ -24,6 +24,8 @@ public class TemperatureConverter extends AppCompatActivity {
     private String mCurrentAnswer = "Enter a value and select units to be converted from and to.";
     private String CURRENT_FORMULA_INSTANCE_KEY = "current_formula_instance_key";
     private String mCurrentFormula = "Enter a value and select units to be converted from and to.";
+    private String CURRENT_USER_INPUT_INSTANCE_KEY = "current_user_input_instance_key";
+    private String mCurrentInput = "";
 
 
     private int [] [] mFindFormula = {// ARRAY TO HOLD THE FORMULA NUMBERS, ROWS ARE THE FROM TYPE AND COLUMNS ARE THE TO TYPE
@@ -43,14 +45,14 @@ public class TemperatureConverter extends AppCompatActivity {
 
         String mTempToType = "-";// To hold the Temperature type being converted to
 
-        String mInputTemperatureString = ((EditText) findViewById(R.id.edit_text)).getText().toString();  // holds the input data from the EditText
+        mCurrentInput= ((EditText) findViewById(R.id.edit_text)).getText().toString();  // holds the input data from the EditText
 
 
 
 
-        if(mInputTemperatureString != null && !mInputTemperatureString.isEmpty()){//Make sure a temperature has been entered.
+        if(mCurrentInput != null && !mCurrentInput.isEmpty()){//Make sure a temperature has been entered.
 
-            mInputTemperatureDouble = Double.parseDouble(mInputTemperatureString); //Since input type was restricted to numbers in the XML file convert it to a double.
+            mInputTemperatureDouble = Double.parseDouble(mCurrentInput); //Since input type was restricted to numbers in the XML file convert it to a double.
 
             int mSelectedFrom = mFromGroup.getCheckedRadioButtonId();
 
@@ -118,18 +120,16 @@ public class TemperatureConverter extends AppCompatActivity {
                                 String.valueOf(mRoundDouble) + mTempToType;
                         mAnswerTextView.setText (mCurrentAnswer);
 
-                        mAnswerFormulaView = (TextView) findViewById(R.id.answer_formula);
+                        mAnswerFormulaView = (TextView) findViewById(R.id.answer_formula_textview);
 
                         mCurrentFormula = TempConv.getOuputFormula();
-                        mAnswerFormulaView.setText(mCurrentAnswer);
+
+                        mAnswerFormulaView.setText(mCurrentFormula);
                     }
                     else
                     {
                         Toast.makeText(TemperatureConverter.this, R.string.to_from_units_same, Toast.LENGTH_SHORT).show();
                     }
-
-
-
 
                 }
                 else
@@ -152,6 +152,7 @@ public class TemperatureConverter extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_temperature_converter);
 
         mConvertButton = (Button) findViewById(R.id.convertButton);
@@ -159,6 +160,33 @@ public class TemperatureConverter extends AppCompatActivity {
         mFromGroup = (RadioGroup) findViewById(R.id.radioGroupFrom);
 
         mToGroup = (RadioGroup) findViewById(R.id.radioGroupTo);
+
+
+        if (savedInstanceState != null)
+        {
+            //Toast.makeText(TemperatureConverter.this, "inside of savedInstanceState != null", Toast.LENGTH_LONG).show();
+
+            mCurrentAnswer = savedInstanceState.getString(CURRENT_ANSWER_INSTANCE_KEY);
+
+            mAnswerTextView = (TextView) findViewById(R.id.answer_textview);
+
+            mAnswerTextView.setText(mCurrentAnswer);
+
+
+            mCurrentFormula = savedInstanceState.getString(CURRENT_FORMULA_INSTANCE_KEY);
+
+            mAnswerFormulaView = (TextView) findViewById(R.id.answer_formula_textview);
+
+            mAnswerFormulaView.setText(mCurrentFormula);
+
+//
+//            mCurrentInput = savedInstanceState.getString(CURRENT_USER_INPUT_INSTANCE_KEY);
+//
+//            mEditText = (EditText)findViewById(R.id.edit_text);
+//
+//            mEditText.setText(mCurrentAnswer);
+
+        }
 
         mConvertButton.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -170,28 +198,6 @@ public class TemperatureConverter extends AppCompatActivity {
             }
         });
 
-        if (savedInstanceState != null)
-        {
-            mCurrentAnswer = savedInstanceState.getString(CURRENT_ANSWER_INSTANCE_KEY);
-
-            mAnswerTextView = (TextView)findViewById(R.id.answer_textview);
-
-            mAnswerTextView.setText(mCurrentAnswer);
-
-            mCurrentFormula = savedInstanceState.getString(CURRENT_ANSWER_INSTANCE_KEY);
-
-            mAnswerFormulaView = (TextView) findViewById(R.id.answer_formula);
-
-            mAnswerFormulaView.setText(mCurrentAnswer);
-
-
-           // mEditText = (EditText)findViewById(R.id.edit_text);
-
-            //mEditText.setText(mCurrentAnswer);
-
-        }
-
-
     }
 
 
@@ -201,6 +207,7 @@ public class TemperatureConverter extends AppCompatActivity {
 
         outState.putString(CURRENT_ANSWER_INSTANCE_KEY, mCurrentAnswer);
         outState.putString(CURRENT_FORMULA_INSTANCE_KEY, mCurrentFormula);
+//        outState.putString(CURRENT_USER_INPUT_INSTANCE_KEY, mCurrentInput);
     }
 
     @Override
