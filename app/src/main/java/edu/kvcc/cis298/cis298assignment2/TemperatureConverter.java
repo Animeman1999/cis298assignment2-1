@@ -17,6 +17,14 @@ public class TemperatureConverter extends AppCompatActivity {
     private RadioGroup mFromGroup;
     private RadioGroup mToGroup;
     private TextView mAnswerTextView;
+    private TextView mAnswerFormulaView;
+    private EditText mEditText;
+
+    private String CURRENT_ANSWER_INSTANCE_KEY = "current_answer_instance_key";
+    private String mCurrentAnswer = "Enter a value and select units to be converted from and to.";
+    private String CURRENT_FORMULA_INSTANCE_KEY = "current_formula_instance_key";
+    private String mCurrentFormula = "Enter a value and select units to be converted from and to.";
+
 
     private int [] [] mFindFormula = {// ARRAY TO HOLD THE FORMULA NUMBERS, ROWS ARE THE FROM TYPE AND COLUMNS ARE THE TO TYPE
             {12, 0,  1,  2},
@@ -56,13 +64,13 @@ public class TemperatureConverter extends AppCompatActivity {
 
                     switch (mSelectedFrom)
                     {
-                        case 5:
+                        case 4:
                             mTempFromType = "°C";
                             break;
-                        case 6:
+                        case 5:
                             mTempFromType = "°F";
                             break;
-                        case 7:
+                        case 6:
                             mTempFromType = "K";
                             break;
                         default:
@@ -71,13 +79,13 @@ public class TemperatureConverter extends AppCompatActivity {
 
                     switch (mSelectedTo)
                     {
-                        case 1:
+                        case 9:
                             mTempToType = "°C";
                             break;
-                        case 2:
+                        case 0:
                             mTempToType = "°F";
                             break;
-                        case 3:
+                        case 1:
                             mTempToType = "K";
                             break;
                         default:
@@ -85,21 +93,44 @@ public class TemperatureConverter extends AppCompatActivity {
                             break;
                     }
 
-                    mFormulaNumberSelected = mFindFormula[(mSelectedFrom -5)] [(mSelectedTo - 1) ];
+                    if (mSelectedTo == 9)
+                    {
+                        mSelectedTo = 0;
+                    }
+                    else
+                    {
+                        mSelectedTo++;
+                    }
 
-                    TemperatureConversion TempConv = new TemperatureConversion(mInputTemperatureDouble,mFormulaNumberSelected );
+                    mFormulaNumberSelected = mFindFormula[(mSelectedFrom -4)] [(mSelectedTo) ];
 
-                    int mRoundInt = (int)(TempConv.getOutputTemperature() * 10);
+                    if (mFormulaNumberSelected != 12)
+                    {
+                        TemperatureConversion TempConv = new TemperatureConversion(mInputTemperatureDouble,mFormulaNumberSelected );
 
-                    double mRoundDouble = (double) mRoundInt / 10;
+                        int mRoundInt = (int)(TempConv.getOutputTemperature() * 10);
 
-                    mAnswerTextView = (TextView) findViewById(R.id.answer_textview);
+                        double mRoundDouble = (double) mRoundInt / 10;
 
-                    String mcurrentAnswer = String.valueOf(mInputTemperatureDouble) + mTempFromType + " = " +
-                            String.valueOf(mRoundDouble) + mTempToType + System.getProperty("line.separator")+ TempConv.getOutputTemperature();
+                        mAnswerTextView = (TextView) findViewById(R.id.answer_textview);
 
-                    mAnswerTextView.setText (mcurrentAnswer);
-                    //******************************Stoped here*************************************
+                        mCurrentAnswer = String.valueOf(mInputTemperatureDouble) + mTempFromType + " = " +
+                                String.valueOf(mRoundDouble) + mTempToType;
+                        mAnswerTextView.setText (mCurrentAnswer);
+
+                        mAnswerFormulaView = (TextView) findViewById(R.id.answer_formula);
+
+                        mCurrentFormula = TempConv.getOuputFormula();
+                        mAnswerFormulaView.setText(mCurrentAnswer);
+                    }
+                    else
+                    {
+                        Toast.makeText(TemperatureConverter.this, R.string.to_from_units_same, Toast.LENGTH_SHORT).show();
+                    }
+
+
+
+
                 }
                 else
                 {
@@ -133,11 +164,44 @@ public class TemperatureConverter extends AppCompatActivity {
             @Override
             public void onClick(View view)
             {
+                //Toast.makeText(TemperatureConverter.this, "mFromGroup = " + mFromGroup.getCheckedRadioButtonId(), Toast.LENGTH_LONG).show();
+                //Toast.makeText(TemperatureConverter.this, "mToGroup = " + mToGroup.getCheckedRadioButtonId(), Toast.LENGTH_LONG).show();
                 getTemperatureInput();
             }
         });
+
+        if (savedInstanceState != null)
+        {
+            mCurrentAnswer = savedInstanceState.getString(CURRENT_ANSWER_INSTANCE_KEY);
+
+            mAnswerTextView = (TextView)findViewById(R.id.answer_textview);
+
+            mAnswerTextView.setText(mCurrentAnswer);
+
+            mCurrentFormula = savedInstanceState.getString(CURRENT_ANSWER_INSTANCE_KEY);
+
+            mAnswerFormulaView = (TextView) findViewById(R.id.answer_formula);
+
+            mAnswerFormulaView.setText(mCurrentAnswer);
+
+
+           // mEditText = (EditText)findViewById(R.id.edit_text);
+
+            //mEditText.setText(mCurrentAnswer);
+
+        }
+
+
     }
 
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putString(CURRENT_ANSWER_INSTANCE_KEY, mCurrentAnswer);
+        outState.putString(CURRENT_FORMULA_INSTANCE_KEY, mCurrentFormula);
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

@@ -21,5 +21,6 @@
     <string name="no_from_chosen">You must select the type of temperature to convert from.</string>
     <string name="no_to_chosen">You must select the type of temperature to convert to.</string>
     <string name="no_temperature_entered">You must enter the temperature to convert.</string>
+    <string name="to_from_units_same">You must enter different unit types to do a conversion!</string>
 
 </resources>
