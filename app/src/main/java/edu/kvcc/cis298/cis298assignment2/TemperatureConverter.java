@@ -38,6 +38,8 @@ public class TemperatureConverter extends AppCompatActivity {
         String mInputTemperatureString = ((EditText) findViewById(R.id.edit_text)).getText().toString();  // holds the input data from the EditText
 
 
+
+
         if(mInputTemperatureString != null && !mInputTemperatureString.isEmpty()){//Make sure a temperature has been entered.
 
             mInputTemperatureDouble = Double.parseDouble(mInputTemperatureString); //Since input type was restricted to numbers in the XML file convert it to a double.
@@ -54,13 +56,13 @@ public class TemperatureConverter extends AppCompatActivity {
 
                     switch (mSelectedFrom)
                     {
-                        case 1:
+                        case 5:
                             mTempFromType = "°C";
                             break;
-                        case 2:
+                        case 6:
                             mTempFromType = "°F";
                             break;
-                        case 3:
+                        case 7:
                             mTempFromType = "K";
                             break;
                         default:
@@ -69,13 +71,13 @@ public class TemperatureConverter extends AppCompatActivity {
 
                     switch (mSelectedTo)
                     {
-                        case 5:
+                        case 1:
                             mTempToType = "°C";
                             break;
-                        case 6:
+                        case 2:
                             mTempToType = "°F";
                             break;
-                        case 7:
+                        case 3:
                             mTempToType = "K";
                             break;
                         default:
@@ -83,8 +85,20 @@ public class TemperatureConverter extends AppCompatActivity {
                             break;
                     }
 
-                    mFormulaNumberSelected = mFindFormula[(mSelectedFrom -1)] [(mSelectedTo - 5) ];
+                    mFormulaNumberSelected = mFindFormula[(mSelectedFrom -5)] [(mSelectedTo - 1) ];
 
+                    TemperatureConversion TempConv = new TemperatureConversion(mInputTemperatureDouble,mFormulaNumberSelected );
+
+                    int mRoundInt = (int)(TempConv.getOutputTemperature() * 10);
+
+                    double mRoundDouble = (double) mRoundInt / 10;
+
+                    mAnswerTextView = (TextView) findViewById(R.id.answer_textview);
+
+                    String mcurrentAnswer = String.valueOf(mInputTemperatureDouble) + mTempFromType + " = " +
+                            String.valueOf(mRoundDouble) + mTempToType + System.getProperty("line.separator")+ TempConv.getOutputTemperature();
+
+                    mAnswerTextView.setText (mcurrentAnswer);
                     //******************************Stoped here*************************************
                 }
                 else
